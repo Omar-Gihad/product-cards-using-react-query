@@ -1,33 +1,19 @@
-import { useEffect } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
-import { useState } from "react";
 import { QueryClient, QueryClientProvider, useQuery } from "react-query";
 
 const queryClient = new QueryClient();
 
 function App() {
-  // const [data, setData] = useState([]);
 
   async function fetchData() {
     const res = await fetch("https://fakestoreapi.com/products");
     return res.json();
   }
-  // useEffect(() => {
-  //   fetch("https://fakestoreapi.com/products")
-  //     .then((res) => res.json())
-  //     .then((res) => setData(res));
-  // }, []);
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
         <Card fetchData={fetchData} />
-
-        {/* {data.map((element) => {
-          return (
-            <Card product={element} key={element.id} fetchData={fetchData} />
-          );
-          })} */}
       </div>
     </QueryClientProvider>
   );
@@ -35,7 +21,7 @@ function App() {
 
 export default App;
 
-function Card({ product, fetchData }) {
+function Card({ fetchData }) {
   const { data, status } = useQuery("products", fetchData);
 
   if (status === "loading") {
